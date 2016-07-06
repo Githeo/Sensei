@@ -35,9 +35,10 @@ $ adb pull /sdcard/CrashTestData/${Experiment_ID}.mp3 ${Experiment Data Folder}
 ```
 
 ## Data Collected
-Beyond the mp3 audio file, the csv with sensor data uses a semicolon as separator among fields
+Beyond the mp3 audio file, the csv file with sensor data uses a semicolon as separator among fields
 and comma to separate values of the same sensor sample (e.g., acceleration on the three axes).
 Since samples can have three or more values, these are grouped by square brackets.
+The following shows a chunk of data:
 
 ```
 Acceleration Sensor;1466433997168;9643789614727;[-0.6608198, 9.239507, 2.370332]
@@ -45,6 +46,7 @@ Linear Acceleration Sensor;1466433997169;9643783255016;[-0.13636637, -0.43212128
 Rotation Vector;1466433997171;9643783255016;[0.649372, 0.008773, -0.030913, 0.759791, 0.0]
 Rotation Matrix;1466433997171;9643783255016;[0.9979348, 0.05836872, -0.026816778, -0.035580963, 0.15472084, -0.98731637, -0.053479366, 0.98623157, 0.15647814]
 Rotation Vector;1466433997171;9643783255016;[0.649372, 0.008773, -0.030913, 0.759791, 0.0]
+...
 ```
 
 Fields are the following:
