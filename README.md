@@ -58,6 +58,12 @@ Fields are the following:
 Units per sensors data values are the same written in the official Android doc here:
 http://developer.android.com/guide/topics/sensors/sensors_overview.html
 
+## Check frequency from records
+In order to be sure that records have the right frequence you can use the following script:
+```
+$ file=FileOfRecords.csv; filter="SensorName;"; c=0; start=`cat ${file} | grep "$filter" | awk -F ";" '{print $2}' | head -1`; for i in `cat ${file}| grep "$filter" | awk -F ";" '{print $2}'`; do gap=$(($i-$start)); if [ $gap -ge 1000 ] ; then start=$i;  echo $count; count=0; fi; count=$(($count+1)); done;
+```
+
 ## Requirements
 
 The minimum SDK version is 18, while Sensei is based on the following dependancies:
