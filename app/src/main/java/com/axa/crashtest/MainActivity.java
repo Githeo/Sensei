@@ -174,8 +174,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void stopCaptureSensorData() {
-        for (Subscription subscription : subscriptionList){
-            subscription.unsubscribe();
+        if (subscriptionList != null){
+            for (Subscription subscription : subscriptionList){
+                subscription.unsubscribe();
+            }
         }
     }
 
@@ -219,38 +221,15 @@ public class MainActivity extends AppCompatActivity {
 
     private void initSensorList() {
         sensorTypeList = new ArrayList<>();
-        if (mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE) != null) {
-            sensorTypeList.add(Sensor.TYPE_GYROSCOPE);
-            mLogger.info(mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE).getName() + " ADDED");
-        }
-        if (mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE_UNCALIBRATED) != null) {
-            sensorTypeList.add(Sensor.TYPE_GYROSCOPE_UNCALIBRATED);
-            mLogger.info(mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE_UNCALIBRATED).getName() + " ADDED");
-        }
-        if (mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null) {
-            sensorTypeList.add(Sensor.TYPE_ACCELEROMETER);
-            mLogger.info(mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER).getName() + " ADDED");
-        }
-        if (mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION) != null) {
-            sensorTypeList.add(Sensor.TYPE_LINEAR_ACCELERATION);
-            mLogger.info(mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION).getName() + " ADDED");
-        }
-        if (mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD) != null) {
-            sensorTypeList.add(Sensor.TYPE_MAGNETIC_FIELD);
-            mLogger.info(mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD).getName() + " ADDED");
-        }
-        if (mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD_UNCALIBRATED) != null) {
-            sensorTypeList.add(Sensor.TYPE_MAGNETIC_FIELD_UNCALIBRATED);
-            mLogger.info(mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD_UNCALIBRATED).getName() + " ADDED");
-        }
-        if (mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR) != null) {
-            sensorTypeList.add(Sensor.TYPE_ROTATION_VECTOR);
-            mRotationVectorSensorName = mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR).getName();
-            mLogger.info(mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR).getName() + " ADDED");
-        }
-        if (mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY) != null) {
-            sensorTypeList.add(Sensor.TYPE_GRAVITY);
-            mLogger.info(mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY).getName() + " ADDED");
+        for (int i = 0; i < SENSORS_TYPES.length; i++) {
+            int type = SENSORS_TYPES[i];
+            Sensor sensor = mSensorManager.getDefaultSensor(type);
+            if (sensor != null) {
+                sensorTypeList.add(type);
+                mLogger.info(sensor.getName() + " ADDED");
+            } else {
+                mLogger.warn("Found no sensor of type : {}", sensor);
+            }
         }
         mLogger.info("sensorTypeList: " + sensorTypeList.toString());
     }
@@ -279,7 +258,6 @@ public class MainActivity extends AppCompatActivity {
                                        String message = sensorName + CSV_SEP + System.currentTimeMillis() +
                                                CSV_SEP + event.getSensorEvent().timestamp + CSV_SEP +
                                                Arrays.toString(event.getSensorEvent().values);
-                                       //mLogger.info(message);
                                        csvWriter.writeNext(message.split(";"));
 
                                        if (mRotationVectorSensorName != null &&
@@ -290,7 +268,6 @@ public class MainActivity extends AppCompatActivity {
                                            message = "Rotation Matrix" + CSV_SEP + System.currentTimeMillis() +
                                                    CSV_SEP + event.getSensorEvent().timestamp + CSV_SEP +
                                                     Arrays.toString(deviceRotationMatrix);
-                                           //mLogger.info(message);
                                            csvWriter.writeNext(message.split(";"));
                                        }
                                    }
