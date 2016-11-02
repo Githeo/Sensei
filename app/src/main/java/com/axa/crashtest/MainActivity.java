@@ -80,6 +80,14 @@ public class MainActivity extends AppCompatActivity {
     private String      outputFileName;
     private String      mRotationVectorSensorName;
     private long        currentTime = System.currentTimeMillis();
+    private static final int[] SENSORS_TYPES = {Sensor.TYPE_ACCELEROMETER,
+                                                Sensor.TYPE_LINEAR_ACCELERATION,
+                                                Sensor.TYPE_GYROSCOPE,
+                                                Sensor.TYPE_GYROSCOPE_UNCALIBRATED,
+                                                Sensor.TYPE_MAGNETIC_FIELD,
+                                                Sensor.TYPE_MAGNETIC_FIELD_UNCALIBRATED,
+                                                Sensor.TYPE_GAME_ROTATION_VECTOR,
+                                                Sensor.TYPE_GRAVITY};
 
     @Bind(R.id.start_button) Button startButton;
     @Bind(R.id.monitorTextView) TextView monitorTextView;
